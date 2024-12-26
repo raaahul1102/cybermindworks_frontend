@@ -131,10 +131,15 @@ npm run dev
 
      
 ### Screenshots
-![Screenshot 2024-12-26 114019](https://github.com/user-attachments/assets/bcc2002f-e161-4978-8a44-f16c941fdfb4)
+![image](https://github.com/user-attachments/assets/b82e4707-d0a2-48cd-8d01-b95e1dc756b3)
 
-![image](https://github.com/user-attachments/assets/7044b217-a8e9-48af-84e0-d3a99758f665)
-![Screenshot 2024-12-26 114035](https://github.com/user-attachments/assets/4a3a504d-c61d-483f-b00e-ca9780670057)
+
+![image](https://github.com/user-attachments/assets/91341b56-6a62-45e1-b122-aa5f4ec691d9)
+![image](https://github.com/user-attachments/assets/d4a0b152-11f4-4156-bfd7-e8b220d19afb)
+
+
+![image](https://github.com/user-attachments/assets/3989179e-6ec0-4f92-9fc2-066c4ebffa0b)
+
 
 ### Contact
 rk20040211@gmail.com
