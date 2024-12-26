@@ -1,114 +1,183 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+import { useState } from 'react';
+import { Layout } from '../components/layout/Layout';
+import { Group, TextInput, Select, RangeSlider, Text, Box, Stack ,createTheme, MantineProvider } from '@mantine/core';
+import { IconSearch, IconMapPin, IconUser } from '@tabler/icons-react';
+import { JobList } from '../components/jobs/JobList';
+import { CreateJobModal } from '@/components/jobs/createJobModal';
+// import { CreateJobModal } from '../components/jobs/CreateJobModal';
+const theme = createTheme({
+  breakpoints: {
+    xs: '30em',
+    sm: '48em',
+    md: '64em',
+    lg: '74em',
+    xl: '90em',
+  },
 });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export default function Home() {
-  return (
-    <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [createJobOpened, setCreateJobOpened] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const [jobTitle, setJobTitle] = useState('');
+  const [location, setLocation] = useState('');
+  const [jobType, setJobType] = useState('');
+  const [salaryRange, setSalaryRange] = useState<[number, number]>([50, 80]); // Ensure tuple type
+
+  const handleCreateJob = (data: any) => {
+    console.log('New job data:', data);
+    setCreateJobOpened(false);
+  };
+
+  return (
+    <MantineProvider theme={theme}>
+    <Layout onCreateJob={() => setCreateJobOpened(true)}>
+      <Box>
+        {/* Search filters */}
+        <Box
+          style={{
+            maxWidth: '99%',
+            margin: '0 auto',
+            padding: '10px 64px 0',
+          }}
+        >
+          <Group grow align="flex-start" gap={8}>
+            <TextInput
+              size="md"
+              placeholder="Search By Job Title, Role"
+              leftSection={<IconSearch size={20} color="#999" />}
+              value={jobTitle}
+              onChange={(e) => setJobTitle(e.target.value)}
+              styles={{
+                input: {
+                  height: '50px',
+                  '&:focus': {
+                    borderColor: '#8B3DFF',
+                  },
+                },
+                section: {
+                  width: '50px',
+                },
+              }}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+
+            <TextInput
+              size="md"
+              placeholder="Preferred Location"
+              leftSection={<IconMapPin size={20} color="#999" />}
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              styles={{
+                input: {
+                  height: '50px',
+                  '&:focus': {
+                    borderColor: '#8B3DFF',
+                  },
+                },
+                section: {
+                  width: '50px',
+                },
+              }}
+            />
+
+            <Select
+              size="md"
+              placeholder="Job type"
+              leftSection={<IconUser size={20} color="#999" />}
+              value={jobType}
+              onChange={(value) => setJobType(value || '')}
+              data={[
+                { value: 'full-time', label: 'Full Time' },
+                { value: 'part-time', label: 'Part Time' },
+                { value: 'contract', label: 'Contract' },
+                { value: 'internship', label: 'Internship' },
+              ]}
+              styles={{
+                input: {
+                  height: '50px',
+                  '&:focus': {
+                    borderColor: '#8B3DFF',
+                  },
+                },
+                section: {
+                  width: '50px',
+                },
+              }}
+            />
+
+            <Stack gap="xs">
+              <Text size="sm" fw={500} c="dimmed" style={{paddingBottom:'0px'}}>
+                Salary Per Month 
+                <span style={{marginLeft:"140px"}}>
+                   {
+                  
+                  `₹50k - ₹80k`
+                  }
+                  </span>
+
+              </Text>
+              <RangeSlider
+                min={50}
+                max={80}
+                step={5}
+                value={salaryRange}
+                onChange={setSalaryRange}
+                // marks={[
+                //   { value: 50, label: '₹50k' },
+                //   { value: 80, label: '₹80k' },
+                // ]}
+                label={(value) => `₹${value}k`}
+                styles={{
+                  thumb: {
+                    borderColor: 'black',
+                    backgroundColor: 'black',
+                    width: '16px',
+                    height: '16px',
+                    // marginBottom:'5px'
+                  },
+                  track: {
+                    height: '2px',
+                    backgroundColor: 'black',
+                  },
+                  bar: {
+                    backgroundColor: 'black',
+                  },
+                  mark: {
+                    width: '0px',
+                  },
+                  markLabel: {
+                    fontSize: '14px',
+                    color: '#000',
+                  },
+                }}
+              />
+            </Stack>
+          </Group>
+        </Box>
+
+        {/* Job listings */}
+        <Box
+          style={{
+            width: '1360px',
+            margin: '0 auto',
+            marginTop: '40px',
+            position: 'relative',
+          }}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+          <JobList
+          //  job_title={jobTitle}
+          //   location={location}
+          //   jobType={jobType}
+          //   salaryRange={salaryRange}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </Box>
+
+        {/* Create Job Modal */}
+        <CreateJobModal
+          opened={createJobOpened}
+          onClose={() => setCreateJobOpened(false)}
+         // onSubmit={handleCreateJob}
+        />
+      </Box>
+    </Layout>
+    </MantineProvider>
   );
 }
