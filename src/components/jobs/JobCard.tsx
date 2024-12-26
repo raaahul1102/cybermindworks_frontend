@@ -300,6 +300,24 @@ export function JobCard({
   description,
   postedTime,
 }: JobCardProps) {
+    
+
+    function calculateLPA(salaryRange: string) {
+        // Split the salary range into two numbers
+        const [minSalary, maxSalary] = salaryRange.split('-').map(Number);
+       console.log(salaryRange)
+        // Calculate the average
+        const avgSalary = (minSalary + maxSalary) / 2;
+      
+        // Convert to LPA and round to the nearest integer
+        const avgLPA = Math.round(avgSalary / 100000);
+      
+        return avgLPA;
+      }
+      
+      // Example usage
+     // const salaryRange = "1000000-2000000";
+      const averageLPA = calculateLPA(salary);
   return (
     <Card
       padding="xl"
@@ -377,7 +395,7 @@ export function JobCard({
       <Text size="lg" fw={600} lineClamp={1}>
         {title}
       </Text>
-      <Group gap={24} mb={16}>
+      <Group gap={18} mb={16}>
         <Group gap={6} wrap="nowrap">
           {/* <IconBriefcase size={16} color="#666" /> */}
           <IconUserPlus stroke={2} style={{height:"25px",width:"17px"}} />
@@ -396,7 +414,7 @@ export function JobCard({
           {/* <IconCoin size={16} color="#666" /> */}
           <IconStack2 stroke={2}  style={{height:"25px",width:"17px"}}/>
           <Text size="sm" c="dimmed">
-            {salary}
+            {`${averageLPA}LPA` }
           </Text>
         </Group>
       </Group>
